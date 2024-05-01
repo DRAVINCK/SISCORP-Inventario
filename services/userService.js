@@ -1,41 +1,64 @@
 //. /services/userService.js
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const saltRounds = 10;
 
-class userService{ //criando a service da user
-//construtor da classe recebe a user model
-constructor(userModel){
-    this.User = userModel 
-
+class userService{
+    constructor(userModel){
+        this.User = userModel 
     }
     async cadastrar(nome, email, senha){
-        try{ //metodo service para inserir no banco
-            const novoUser = await this.User.create( //Só avança uando der certo "await"
+        try{
+            const hashedPassword = await bcrypt.hash(senha, saltRounds);
+            const novoUser = await this.User.create(
             {
                     nome:nome,
                     email:email, 
-                    senha:senha
+                    senha:hashedPassword
                  }
             );
-            return novoUser ? novoUser : null; //if ternário, se novoUser for novoUser retorna novoUser caso contrario null
+            novoUser.senha='';
+            return novoUser ? novoUser : null;
         }
-        catch(error){ //se açgo der errado a service fala pra controler que nao deu 
+        catch(error){
             throw error; 
         }
     }
-    //localizar usuario
-    async localizarUsuarioPeloLogin(login,senha){
+    async localizarUsuarioPeloLogin(email,senha){
         try{
-            const AllUsers = await this.User.findAll();
-            return AllUsers? AllUsers: null;
+            const user = await this.User.findOne({ where: { email: email } });
+            if (user && await bcrypt.compare(senha, user.senha)) {
+                const token = jwt.sign({id: user.id }, 'sua chave secreta', {expiresIn:'1h'});
+                user.senha='';
+                return {user,token};
+            } else {
+                return null;
+            }
+        }
+        catch(error){
+            throw error;
+        }
+    }
+    async localizarUsuarioPeloId(id){
+        try{
+            const idUser = await this.User.findOne({ where: { id: id } });
+            idUser.senha='';
+            return idUser;
         }
         catch(error){
             throw error;
         }
     }
 
-    async localizarUsuarioPeloId(id){
+    async listarTodos(token){
         try{
-            const idUser = await this.User.findOne();
-            return idUser? idUser: null;
+            const decoded = jwt.verify(token, 'sua chave secreta');
+            if(decoded){
+                const users = await this.User.findAll();
+                return users ? users : null;
+            } else {
+                throw new Error('Token inválido');
+            }
         }
         catch(error){
             throw error;
