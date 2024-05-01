@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) { //nome da rota '/'
   res.send('Modulo de usuario está funcionando');
 });
 
-//rora para criar um novo usuario
+//rota para criar um novo usuario
 router.post('/novoUsuario', function(req,res,next){
   UserController.create(req,res);
 });
@@ -24,5 +24,9 @@ router.get('/localizarUsuarioPeloLogin', function(req, res, next) {
 
 router.get('/localizarUsuarioPeloId', function(req, res, next) { 
   UserController.localizarUsuarioPeloId(req,res);
+});
+
+router.get('/listarTodos', function(req, res, next) { 
+  UserController.listarTodos(req,res);
 });
 module.exports = router;
