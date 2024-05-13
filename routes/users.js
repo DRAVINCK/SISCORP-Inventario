@@ -18,8 +18,8 @@ router.post('/novoUsuario', function(req,res,next){
   UserController.create(req,res);
 });
 
-router.get('/localizarUsuarioPeloLogin', function(req, res, next) { 
-  UserController.localizarUsuarioPeloLogin(req,res);
+router.get('/login', function(req, res, next) { 
+  UserController.login(req,res);
 });
 
 router.get('/localizarUsuarioPeloId', function(req, res, next) { 

@@ -24,11 +24,11 @@ class userService{
             throw error; 
         }
     }
-    async localizarUsuarioPeloLogin(email,senha){
+    async login(email,senha){
         try{
             const user = await this.User.findOne({ where: { email: email } });
             if (user && await bcrypt.compare(senha, user.senha)) {
-                const token = jwt.sign({id: user.id }, 'sua chave secreta', {expiresIn:'1h'});
+                const token = jwt.sign({id: user.id }, '123', {expiresIn:'1h'});
                 user.senha='';
                 return {user,token};
             } else {
@@ -52,10 +52,11 @@ class userService{
 
     async listarTodos(token){
         try{
-            const decoded = jwt.verify(token, 'sua chave secreta');
+            const decoded = jwt.verify(token, '123');
             if(decoded){
                 const users = await this.User.findAll();
-                return users ? users : null;
+                users.forEach(user => user.senha = '');
+                return users;
             } else {
                 throw new Error('Token inválido');
             }

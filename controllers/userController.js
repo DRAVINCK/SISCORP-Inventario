@@ -16,10 +16,10 @@ class userController {
         }
     }
 
-    async localizarUsuarioPeloLogin(req, res) {
+    async login(req, res) {
         const { email, senha } = req.body;
         try {
-            const userLoc = await this.userService.localizarUsuarioPeloLogin(email, senha);
+            const userLoc = await this.userService.login(email, senha);
             res.status(200).json(userLoc);
         }
         catch {
