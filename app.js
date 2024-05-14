@@ -5,6 +5,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productsRouter = require('./routes/products');
 
 var app = express();
 
@@ -16,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products', productsRouter);
 const db = require('./models');
 
 //aplicar migrations integrar com banco de dados mysql
@@ -44,6 +46,3 @@ var port = "3000";
 app.listen(port);
 console.log("Sistema rodando na porta 3000");
 module.exports = app;
-
-
-
