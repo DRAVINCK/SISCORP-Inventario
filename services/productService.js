@@ -2,7 +2,23 @@ const jwt = require('jsonwebtoken');
 
 class ProductService {
     constructor(ProductModel) {
-      this.Product = ProductModel;
+      this.Product = ProductModel
+    }
+
+    async cadastrarProduto(nome, ativo) {
+
+      try{
+          const product = await this.Product.create(
+            {
+              nome:nome,
+              ativo:ativo
+            }
+          );
+        return product ? product : null;
+      }
+      catch (error) {
+        throw new Error('Token inválido');
+      }
     }
   
     async listarTodos(token) {
