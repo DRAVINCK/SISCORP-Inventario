@@ -4,12 +4,11 @@ class userController {
     constructor(userService) {
         this.userService = userService;
     }
-    async create(req, res) { //request responde
-        const { nome, email, senha } = req.body;//sera alterado pq tem um erro de codigo
+    async create(req, res) { 
+        const { nome, email, senha } = req.body;
         try {
             const novoUser = await this.userService.cadastrar(nome, email, senha);
             res.status(200).json(novoUser);
-
         }
         catch (error) {
             res.status(500).json({ error: 'Erro ao inserir o novo usuário' });

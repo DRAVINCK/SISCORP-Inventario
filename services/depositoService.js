@@ -1,9 +1,21 @@
-
 const jwt = require('jsonwebtoken');
 
 class DepositoService {
   constructor(DepositoModel) {
     this.Deposito = DepositoModel;
+  }
+
+  async createDeposito(nome) {
+    try {
+      const novoDeposito = await this.Deposito.create(
+        {
+          nome:nome
+        }
+      );
+      return novoDeposito ? novoDeposito : null;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async listarTodos(token) {
