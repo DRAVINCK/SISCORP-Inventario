@@ -13,12 +13,13 @@ router.get('/', function(req, res, next) {
   res.send('Modulo de usuario está funcionando');
 });
 
+router.post('/cadastrarProduto', function(req,res,next){
+  ProductControllerInstance.cadastrarProduto(req,res);
+});
+
 router.get('/listarTodos', function(req, res, next) {
   ProductControllerInstance.listarTodos(req, res);
 });
 
-router.post('/cadastrarProduto', function(req,res,next){
-  ProductControllerInstance.cadastrarProduto(req,res);
-});
 
 module.exports = router;

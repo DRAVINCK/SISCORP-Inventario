@@ -1,14 +1,16 @@
 // controllers/ProductController.js
 
+const { token } = require("morgan");
+
 class ProductController {
   constructor(productService) {
-    this.ProductService = productService;
+    this.productService = productService;
   }
 
   async cadastrarProduto(req, res) {
     const { nome, ativo } = req.body;
     try {
-      const product = await this.ProductService.cadastrarProduto( nome, ativo);
+      const product = await this.productService.cadastrarProduto( nome, ativo);
       res.status(200).json(product);
     } catch (error) {
       res.status(500).json({ error: "Erro ao inserir o novo produto." });
@@ -16,11 +18,12 @@ class ProductController {
   }
 
   async listarTodos(req, res) {
+    const token = req.headers.authorization;
     try {
-      const products = await ProductService.listarTodos(req.headers.authorization);
-      res.json(products);
+      const products = await this.productService.listarTodos(token);
+      res.status(200).json(products);
     } catch (error) {
-      res.status(500).send(error.message);
+      res.status(500).json({error: "Erro ao listar produtos."});
     }
   }
 

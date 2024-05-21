@@ -9,6 +9,10 @@ const MovimentoProdutoServiceInstance = new MovimentoProdutoService(db.Movimento
 const MovimentoProdutoController = require('../controllers/movimentoProdutoController');
 const MovimentoProdutoControllerInstance = new MovimentoProdutoController(MovimentoProdutoServiceInstance);
 
+router.post('/criarMovimentacao', function(req, res, next) {
+  MovimentoProdutoControllerInstance.criar(req, res);
+}); 
+
 router.get('/listarTodos', function(req, res, next) {
   MovimentoProdutoControllerInstance.listarTodos(req, res);
 });

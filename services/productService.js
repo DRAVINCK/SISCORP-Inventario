@@ -23,7 +23,7 @@ class ProductService {
   
     async listarTodos(token) {
       try {
-        const decoded = jwt.verify(token, '12');
+        const decoded = jwt.verify(token, '123');
         if (decoded) {
           const products = await this.Product.findAll();
           return products ? products : null;

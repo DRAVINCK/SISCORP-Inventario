@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var depositosRouter = require('./routes/depositos');
+var movimentosRouter = require('./routes/movimentoProdutos');
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/depositos', depositosRouter);
+app.use('/movimentoProdutos', movimentosRouter);
 const db = require('./models');
 
 //aplicar migrations integrar com banco de dados mysql

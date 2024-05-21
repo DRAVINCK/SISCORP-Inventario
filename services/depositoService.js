@@ -20,7 +20,7 @@ class DepositoService {
 
   async listarTodos(token) {
     try {
-      const decoded = jwt.verify(token, '12');
+      const decoded = jwt.verify(token, '123');
       if (decoded) {
         const depositos = await this.Deposito.findAll();
         return depositos ? depositos : null;

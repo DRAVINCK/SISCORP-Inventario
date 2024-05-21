@@ -17,11 +17,12 @@ class DepositoController {
   }
 
   async listarTodos(req, res) {
+    const token = req.headers.authorization;
     try {
-      const depositos = await DepositoService.listarTodos(req.headers.authorization);
-      res.json(depositos);
+      const depositos = await this.DepositoService.listarTodos(token);
+      res.status(200).json(depositos);
     } catch (error) {
-      res.status(500).send(error.message);
+      res.status(500).json({error: 'Erro ao listar depósitos'});
     }
   }
 
