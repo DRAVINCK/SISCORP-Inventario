@@ -36,10 +36,7 @@ module.exports = (sequelize) => {
       type: Sequelize.FLOAT,
       allowNull: false
     },
-    Data: {
-      type: Sequelize.DATE,
-      allowNull: false
-    }
+    
   });
 
   MovimentoProduto.associate = function(models) {
