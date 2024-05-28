@@ -9,7 +9,9 @@ var productsRouter = require('./routes/products');
 var depositosRouter = require('./routes/depositos');
 var movimentosRouter = require('./routes/movimentoProdutos');
 var centroDeCustoRouter = require('./routes/centroDeCustoRouter');
-
+var compraRouter = require('./routes/compraRouter');
+var movimentoRouter = require('./routes/movimentoRouter');
+var tituloRouter = require('./routes/tituloRouter');
 var app = express();
 
 app.use(logger('dev'));
@@ -24,6 +26,9 @@ app.use('/products', productsRouter);
 app.use('/depositos', depositosRouter);
 app.use('/movimentoProdutos', movimentosRouter);
 app.use('/centroDeCusto', centroDeCustoRouter);
+app.use('/compra', compraRouter);
+app.use('/movimento', movimentoRouter);
+app.use('/titulo', tituloRouter);
 const db = require('./models');
 
 //aplicar migrations integrar com banco de dados mysql
