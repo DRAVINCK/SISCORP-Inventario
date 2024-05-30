@@ -17,8 +17,8 @@ module.exports = (sequelize) => {
       },
       allowNull: false
     },
-    CompradorId: {
-      type: Sequelize.STRING,
+    compradorId: {
+      type: Sequelize.INTEGER,
       references: {
         model: 'User',
         key: 'id'
@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       allowNull: false
     },
 
-    CotacaoId: {
+    cotacaoId: {
       type: Sequelize.INTEGER,
       references: {
         model: 'Cotacao',
@@ -65,7 +65,7 @@ module.exports = (sequelize) => {
     Compra.belongsTo(models.User, { foreignKey: 'compradorId', as: 'comprador' });
     Compra.belongsTo(models.Produto, { foreignKey: 'produtoId', as: 'produto' });
     Compra.belongsTo(models.Fornecedor, { foreignKey: 'fornecedorId', as: 'fornecedor' });
-    Compra.belongsTo(models.Cotacao, { foreignKey: 'CotacaoId', as: 'cotacao' });
+    Compra.belongsTo(models.Cotacao, { foreignKey: 'cotacaoId', as: 'cotacao' });
   };
 
   return Compra;

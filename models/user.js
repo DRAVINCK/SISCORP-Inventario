@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
   });
 
   User.associate = function(models) {
-    User.belongsTo(models.CentroDeCusto, { foreignKey: 'centroDeCustoId', as: 'centroDeCusto' });
+    User.belongsTo(models.CentroDeCusto, { foreignKey: 'centroDeCustoId', as: 'CentroDeCusto' });
   };
 
   return User;

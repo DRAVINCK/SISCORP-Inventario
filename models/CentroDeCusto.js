@@ -8,11 +8,6 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    codigo: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-    },
     nome: {
       type: Sequelize.STRING,
       allowNull: false,

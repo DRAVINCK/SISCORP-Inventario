@@ -4,13 +4,9 @@ class CentroDeCustoService {
       this.CentroDeCusto = CentroDeCustoModel;
     }
   
-    async criar(codigo, nome) {
+    async criar(nome) {
       try {
-        const novoCentro = await this.CentroDeCusto.create(
-          { 
-            codigo,
-             nome
-          });
+        const novoCentro = await this.CentroDeCusto.create({nome});
 
         return novoCentro ? novoCentro : null;
       } catch (error) {

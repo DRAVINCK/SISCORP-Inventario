@@ -13,7 +13,9 @@ const usersRouter = require('./routes/userRouter');
 const cotacaoRouter = require('./routes/cotacaoRouter');
 const compraRouter = require('./routes/compraRouter');
 
+
 const db = require('./models'); // Importar o banco de dados
+const CentroDeCusto = require('./models/CentroDeCusto');
 
 const app = express();
 
@@ -33,10 +35,22 @@ app.use('/users', usersRouter);
 app.use('/cotacao', cotacaoRouter);
 app.use('/compra', compraRouter);
 
+
+
+
+
 async function applyMigrations() {
   try {
     // Aplicando migração
-    await db.sequelize.sync({ alter: true });
+    await db.CentroDeCusto.sync({ alter: true });
+    await db.Produto.sync({ alter: true });
+    await db.Deposito.sync({ alter: true });
+    await db.MovimentoProduto.sync({ alter: true });
+    await db.Fornecedor.sync({ alter: true });
+    await db.User.sync({ alter: true });
+    console.log("Users foi");
+    await db.Cotacao.sync({ alter: true });
+    await db.Compra.sync({ alter: true });
     console.log("Sincronização com o banco de dados realizada");
   } catch (error) {
     console.log('Erro ao sincronizar o banco de dados', error);

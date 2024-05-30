@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
     produtoId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'Produto',
+        model: 'produto',
         key: 'id'
       },
       allowNull: false
@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
     fornecedorId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'Fornecedor',
+        model: 'fornecedor',
         key: 'id'
       },
       allowNull: false
@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
     compradorId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'User', 
+        model: 'user', 
         key: 'id'
       },
       allowNull: false
@@ -49,7 +49,7 @@ module.exports = (sequelize) => {
   Cotacao.associate = function(models) {
     Cotacao.belongsTo(models.Produto, { foreignKey: 'produtoId', as: 'produto' });
     Cotacao.belongsTo(models.Fornecedor, { foreignKey: 'fornecedorId', as: 'fornecedor' });
-    Cotacao.belongsTo(models.User, { foreignKey: 'compradorId', as: 'comprador' });
+    Cotacao.belongsTo(models.User, { foreignKey: 'compradorId', as: 'user' });
   };
 
   return Cotacao;
