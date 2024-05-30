@@ -6,9 +6,9 @@ class CentroDeCustoController {
     }
   
     async criar(req, res) {
-      const { nome } = req.body;
+      const { codigo,nome } = req.body;
       try {
-        const centro = await this.CentroDeCustoService.criar(nome);
+        const centro = await this.CentroDeCustoService.criar(codigo, nome);
         res.status(200).json(centro);
       } catch (error) {
         res.status(500).json({ error: 'Erro ao criar o centro de custo' });
@@ -21,6 +21,26 @@ class CentroDeCustoController {
         res.status(200).json(centros);
       } catch (error) {
         res.status(500).json({ error: 'Erro ao listar os centros de custo' });
+      }
+    }
+
+    async buscarPorId(req, res) {
+      const { id } = req.body;
+      try {
+        const centro = await this.CentroDeCustoService.buscarPorId(id);
+        res.status(200).json(centro);
+      } catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar o centro de custo' });
+      }
+    }
+
+    async buscarPorId(req, res) {
+      const { id } = req.body;
+      try {
+        const centro = await this.CentroDeCustoService.buscarPorId(id);
+        res.status(200).json(centro);
+      } catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar o centro de custo' });
       }
     }
   
@@ -37,8 +57,8 @@ class CentroDeCustoController {
     async deletar(req, res) {
       const { id } = req.body;
       try {
-        const sucesso = await this.CentroDeCustoService.deletar(id);
-        res.status(200).json({ sucesso });
+        const deletado = await this.CentroDeCustoService.deletar(id);
+        res.status(200).json({ deletado });
       } catch (error) {
         res.status(500).json({ error: 'Erro ao deletar o centro de custo' });
       }

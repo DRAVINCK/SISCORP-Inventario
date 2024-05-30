@@ -4,17 +4,18 @@ class CompraService {
       this.Compra = CompraModel;
     }
   
-    async criar(produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal, valorASerPago) {
+    async criar(fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao) {
       try {
-        const compra = await this.Compra.create({
+        const novaCompra = await this.Compra.create({
+          fornecedorId,
+          contacaoId,
           produtoId,
           qtdAdquirida,
           custoUnitario,
-          parcelas,
-          noNotaFiscal,
-          valorASerPago
+          valorASerPago,
+          situacao
         });
-        return compra;
+        return novaCompra ? novaCompra : null;
       } catch (error) {
         throw error;
       }
@@ -28,17 +29,27 @@ class CompraService {
         throw error;
       }
     }
+
+    async buscarPorId(id) {
+      try {
+        const compra = await this.Compra.findOne({ where: { id } });
+        return compra ? compra : null;
+      } catch (error) {
+        throw error;
+      }
+    }
   
-    async atualizar(id, produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal, valorASerPago) {
+    async atualizar(id, fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao) {
       try {
         const compra = await this.Compra.findOne({ where: { id } });
         if (compra) {
+          compra.fornecedorId = fornecedorId;
+          compra.contacaoId = contacaoId;
           compra.produtoId = produtoId;
           compra.qtdAdquirida = qtdAdquirida;
           compra.custoUnitario = custoUnitario;
-          compra.parcelas = parcelas;
-          compra.noNotaFiscal = noNotaFiscal;
           compra.valorASerPago = valorASerPago;
+          compra.situacao = situacao;
           await compra.save();
           return compra;
         }
@@ -61,6 +72,5 @@ class CompraService {
       }
     }
   }
-  
   module.exports = CompraService;
   
