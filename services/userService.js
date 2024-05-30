@@ -71,11 +71,24 @@ class userService {
         user.nome = nome;
         user.email = email;
         user.centroDeCustoId = centroDeCustoId;
-        await user.save();
         user.senha = '';
+        await user.save();
         return user;
       }
       return null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deletar(id) { 
+    try {
+      const user = await this.User.findOne({ where: { id } });
+      if (user) {
+        await user.destroy();
+        return true;
+      }
+      return false;
     } catch (error) {
       throw error;
     }

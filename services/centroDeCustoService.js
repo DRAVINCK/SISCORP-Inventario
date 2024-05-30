@@ -4,9 +4,14 @@ class CentroDeCustoService {
       this.CentroDeCusto = CentroDeCustoModel;
     }
   
-    async criar(nome) {
+    async criar(codigo, nome) {
       try {
-        const novoCentro = await this.CentroDeCusto.create({ nome });
+        const novoCentro = await this.CentroDeCusto.create(
+          { 
+            codigo,
+             nome
+          });
+
         return novoCentro ? novoCentro : null;
       } catch (error) {
         throw error;
@@ -17,6 +22,15 @@ class CentroDeCustoService {
       try {
         const centros = await this.CentroDeCusto.findAll();
         return centros ? centros : null;
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    async buscarPorId(id) {
+      try {
+        const centro = await this.CentroDeCusto.findOne({ where: { id } });
+        return centro ? centro : null;
       } catch (error) {
         throw error;
       }

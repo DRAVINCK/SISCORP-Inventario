@@ -1,6 +1,7 @@
 // models/Compra.js
 const Sequelize = require('sequelize');
 
+
 module.exports = (sequelize) => {
   const Compra = sequelize.define('Compra', {
     id: {
@@ -8,10 +9,34 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
+    fornecedorId:{
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Fornecedor',
+        key: 'id'
+      },
+      allowNull: false
+    },
+    CompradorId: {
+      type: Sequelize.STRING,
+      references: {
+        model: 'User',
+        key: 'id'
+      },
+      allowNull: false
+    },
+
+    CotacaoId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Cotacao',
+        key: 'id'
+      }
+    },
     produtoId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'Products',
+        model: 'Produto',
         key: 'id'
       },
       allowNull: false
@@ -24,22 +49,23 @@ module.exports = (sequelize) => {
       type: Sequelize.FLOAT,
       allowNull: false
     },
-    parcelas: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
-    noNotaFiscal: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
+    
     valorASerPago: {
       type: Sequelize.FLOAT,
+      allowNull: false
+    },
+
+    situacao: {
+      type: Sequelize.ENUM('pendente', 'encerrada', 'cancelada'),
       allowNull: false
     }
   });
 
   Compra.associate = function(models) {
-    Compra.belongsTo(models.Product, { foreignKey: 'produtoId', as: 'produto' });
+    Compra.belongsTo(models.User, { foreignKey: 'compradorId', as: 'comprador' });
+    Compra.belongsTo(models.Produto, { foreignKey: 'produtoId', as: 'produto' });
+    Compra.belongsTo(models.Fornecedor, { foreignKey: 'fornecedorId', as: 'fornecedor' });
+    Compra.belongsTo(models.Cotacao, { foreignKey: 'CotacaoId', as: 'cotacao' });
   };
 
   return Compra;

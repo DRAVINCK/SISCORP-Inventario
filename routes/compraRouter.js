@@ -17,6 +17,10 @@ router.get('/listarTodos', function(req, res, next) {
   CompraControllerInstance.listarTodos(req, res);
 });
 
+router.get('/buscarPorId', function(req, res, next) {
+  CompraControllerInstance.buscarPorId(req, res);
+});
+
 router.put('/atualizar', function(req, res, next) {
   CompraControllerInstance.atualizar(req, res);
 });

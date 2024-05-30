@@ -13,7 +13,9 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
     "mysql2": "^3.9.3",
-    "sequelize": "^6.37.1",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
     "sequelize-cli": "^6.6.2"
   }
 }

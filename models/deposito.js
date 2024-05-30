@@ -1,5 +1,4 @@
 
-
 const Sequelize = require('sequelize');
 module.exports = (sequelize) =>{
 const Deposito = sequelize.define('Deposito', {
