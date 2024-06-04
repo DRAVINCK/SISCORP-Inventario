@@ -1,0 +1,25 @@
+{
+    "workbench.colorTheme": "Min Dark",
+    "workbench.iconTheme": "symbols",
+    "editor.mouseWheelZoom": true,
+    "git.autofetch": true,
+    "window.zoomLevel": -1,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "symbols.hidesExplorerArrows": false,
+    "editor.fontFamily": "JetBrains Mono", //fonte do vscode
+    "editor.fontSize": 14, //tamanho da fonte
+    "editor.lineHeight": 1.8, //espaçamento entre linhas
+    "editor.rulers": [80, 120], //limite de codigo
+    "workbench.editor.labelFormat": "short", //nome do arquivo na aba
+    "explorer.compactFolders": false, //compactar pastas no explorer
+    "editor.minimap.enabled": false, // tira o minimap
+    "breadcrumbs.enabled": false, //tira o breadcrumbs
+    "workbench.activityBar.location": "bottom",//barra lateral esquerda do vscode
+    "editor.scrollbar.horizontal": "hidden", //barra de rolagem horizontal
+    "editor.scrollbar.vertical": "hidden", // tira menu superior
+    "workbench.layoutControl.enabled": false,
+    "window.commandCenter": false, // tira a barr de pesquisa superior, so usar o ctrl+p
+    "workbench.statusBar.visible": false,
+    "window.menuBarVisibility": "compact",
+       
+} 
