@@ -1,31 +1,61 @@
 // controllers/DepositoController.js
-
-
 class DepositoController {
   constructor(DepositoService) {
     this.DepositoService = DepositoService;
   }
 
-  async createDeposito(req, res) {
-    const {nome} = req.body;
+  async criarDeposito(req, res) {
+    const { nome } = req.body;
     try {
-      const deposito = await this.DepositoService.createDeposito(nome);
+      const deposito = await this.DepositoService.criarDeposito(nome);
       res.status(200).json(deposito);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao inserir o novo depósito' });
+      res.status(500).json({ error: 'Erro ao criar depósito' });
     }
   }
 
-  async listarTodos(req, res) {
-    const token = req.headers.authorization;
+  async adicionarProduto(req, res) {
+    const { depositoId, produtoId, quantidade } = req.body;
     try {
-      const depositos = await this.DepositoService.listarTodos(token);
+      const depositoProduto = await this.DepositoService.adicionarProduto(
+        depositoId, produtoId, quantidade
+      );
+      res.status(200).json(depositoProduto);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao adicionar produto ao depósito' });
+    }
+  }
+
+  async listarProdutos(req, res) {
+    const { id } = req.params;
+    try {
+      const produtos = await this.DepositoService.listarProdutos(id);
+      res.status(200).json(produtos);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao listar produtos do depósito' });
+    }
+  }
+
+  async listarDepositos(req, res) {
+    try {
+      const depositos = await this.DepositoService.listarDepositos();
       res.status(200).json(depositos);
     } catch (error) {
-      res.status(500).json({error: 'Erro ao listar depósitos'});
+      res.status(500).json({ error: 'Erro ao listar depósitos' });
     }
   }
 
-
+  async verificarDisponibilidade(req, res) {
+    const { depositoId, produtoId, quantidade } = req.query;
+    try {
+      const disponivel = await this.DepositoService.verificarDisponibilidade(
+        depositoId, produtoId, quantidade
+      );  
+      res.status(200).json({ disponivel });
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao verificar disponibilidade' });
+    }
+  }
 }
-module.exports = DepositoController
+
+module.exports = DepositoController;

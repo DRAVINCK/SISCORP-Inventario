@@ -12,9 +12,11 @@ const fornecedorRouter = require('./routes/fornecedorRouter');
 const usersRouter = require('./routes/userRouter');
 const cotacaoRouter = require('./routes/cotacaoRouter');
 const compraRouter = require('./routes/compraRouter');
+const requisicapRouter = require('./routes/requisicaoRouter');
+
 
 const db = require('./models'); // Importar o banco de dados
-const { FORCE } = require('sequelize/lib/index-hints');
+
 
 const app = express();  
 
@@ -26,25 +28,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/centroDeCusto', centroDeCustoRouter);
-app.use('/products', produtosRouter);
+app.use('/produtos', produtosRouter);
 app.use('/depositos', depositosRouter);
 app.use('/movimentoProdutos', movimentosProdutosRouter);
 app.use('/fornecedor', fornecedorRouter);
 app.use('/users', usersRouter);
 app.use('/cotacao', cotacaoRouter);
 app.use('/compra', compraRouter);
+app.use('/requisicao', requisicapRouter);
+
 
 async function applyMigrations() {
   try {
     // Aplicando migração
     await db.CentroDeCusto.sync({ alter: true });
-    await db.User.sync({ alter: true }); // User deve ser sincronizado antes de ser referenciado
+    await db.User.sync({ alter: true }); 
     await db.Produto.sync({ alter: true });
     await db.Fornecedor.sync({ alter: true });
     await db.Deposito.sync({ alter: true });
+    await db.DepositoProduto.sync({ alter: true }); 
     await db.MovimentoProduto.sync({ alter: true });
-    await db.Cotacao.sync({ FORCE: true }); // Cotacao deve ser sincronizado após as tabelas referenciadas
+    await db.Cotacao.sync({ FORCE: true }); 
     await db.Compra.sync({ alter: true });
+    await db.Requisicao.sync({ alter: true });
     console.log("Sincronização com o banco de dados realizada");
   } catch (error) {
     console.log('Erro ao sincronizar o banco de dados', error);
