@@ -11,7 +11,7 @@ class fornecedorController{
             const novoFornecedor = await this.fornecedorService.criar(nome, cnpj);
             res.status(200).json(novoFornecedor);
         } catch (error){
-            res.status(500).json({error: 'Erro ao inserir o novo fornecedor'});
+            res.status(500).json({error: error.message});
         }
     }
 
@@ -38,9 +38,13 @@ class fornecedorController{
         const {id, nome, cnpj} = req.body;
         try{
             const fornecedor = await this.fornecedorService.atualizar(id, nome, cnpj);
-            res.status(200).json(fornecedor);
+            if(fornecedor.success){
+                res.status(200).json(fornecedor);
+              } else {
+                res.status(404).json(fornecedor);
+              }
         } catch (error){
-            res.status(500).json({error: 'Erro ao atualizar o fornecedor'});
+            res.status(500).json({error: error.message});
         }
     }
 

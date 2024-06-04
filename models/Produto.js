@@ -16,6 +16,8 @@ const Produto = sequelize.define('Produto', {
         type: Sequelize.FLOAT,
         allowNull: false,
     }
+
+    
 });
 return Produto;
 };

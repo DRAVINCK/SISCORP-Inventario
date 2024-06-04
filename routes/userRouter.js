@@ -15,11 +15,11 @@ router.get('/', function(req, res, next) {
 });
 
 // rota para criar um novo usuario
-router.post('/novoUsuario', function(req, res, next) {
+router.post('/novoUsuarionew', function(req, res, next) {
   UserController.create(req, res);
 });
 
-router.post('/login', function(req, res, next) {
+router.get('/login', function(req, res, next) {
   UserController.login(req, res);
 });
 

@@ -8,7 +8,15 @@ class CompraController {
   async criar(req, res) {
     const { fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao } = req.body;
     try {
-      const compra = await this.compraService.criar(fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao);
+      const compra = await this.compraService.criar(
+        fornecedorId, 
+        contacaoId, 
+        produtoId, 
+        qtdAdquirida, 
+        custoUnitario, 
+        valorASerPago, 
+        situacao
+      );
       res.status(200).json(compra);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao criar a compra.' });
@@ -37,7 +45,15 @@ class CompraController {
   async atualizar(req, res) {
     const { id, fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao } = req.body;
     try {
-      const compra = await this.compraService.atualizar(id, fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao);
+      const compra = await this.compraService.atualizar(
+        id, 
+        fornecedorId, 
+        contacaoId, 
+        produtoId, 
+        qtdAdquirida, 
+        custoUnitario, 
+        valorASerPago, 
+        situacao);
       res.status(200).json(compra);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao atualizar a compra.' });

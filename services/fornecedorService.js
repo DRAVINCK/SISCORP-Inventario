@@ -1,26 +1,33 @@
 // services/notifications.js
 
-class fornecedorService {
+class FornecedorService {
     constructor(fornecedorModel) {
-      this.fornecedor = fornecedorModel;
+      this.Fornecedor = fornecedorModel;
     }
   
-    async criar(nome, cnpj){
+    async criar(nomecode, cnpjcod){
       try {
-        const novoFornecedor = await this.fornecedor.create(
+        const fornecedorExistente = await this.Fornecedor.findOne({ where: { cnpj: cnpjcod } });
+
+        if(fornecedorExistente){
+          throw new Error('CNPJ já cadastrado');
+        };
+
+        const novoFornecedor = await this.Fornecedor.create(
           { 
-              nome,
-              cnpj 
+              nome: nomecode,
+              cnpj: cnpjcod 
           });
-        return fornecedor ? novoFornecedor : null;
+        return novoFornecedor ? novoFornecedor : null;
       } catch (error) {
         throw error;
       }
+  
     }
   
     async listarTodos(){
       try {
-        const fornecedores = await this.fornecedor.findAll();
+        const fornecedores = await this.Fornecedor.findAll();
         return fornecedores ? fornecedores : null;
       } catch (error) {
         throw error;
@@ -29,7 +36,7 @@ class fornecedorService {
   
     async buscarPorId(id){
       try {
-        const fornecedor = await this.fornecedor.findOne(id);
+        const fornecedor = await this.Fornecedor.findOne({ where: { id: id } });
         return fornecedor ? fornecedor : null;
       } catch (error) {
         throw error;
@@ -38,17 +45,17 @@ class fornecedorService {
   
     async atualizar(id, nome, cnpj){
       try {
-        const fornecedor = await this.fornecedor.findOne(id);
+        const fornecedor = await this.Fornecedor.findOne({where: {id}});
         if(fornecedor){
           fornecedor.nome = nome;
           fornecedor.cnpj = cnpj;
           await fornecedor.save();
-          return fornecedor;
+          return { success: true, message: 'Fornecedor atualizado com sucesso', fornecedor };
         }
-        return null;
+        return { success: false, message: 'Fornecedor não encontrado' };
       } catch (error) {
-        throw error;
+        throw error(message);
       }
     }
   }
-  module.exports = fornecedorService;
+  module.exports = FornecedorService;

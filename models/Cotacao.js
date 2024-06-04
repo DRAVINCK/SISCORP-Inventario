@@ -8,21 +8,28 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
-    produtoId: {
+    ProdutoId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'produto',
+        model: 'Produtos',
         key: 'id'
       },
       allowNull: false
     },
-    fornecedorId: {
+    FornecedorId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'fornecedor',
+        model: 'Fornecedors',
         key: 'id'
       },
       allowNull: false
+    },
+    CompradorId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Users', 
+        key: 'id'
+      },
     },
     precoProposto: {
       type: Sequelize.FLOAT,
@@ -32,25 +39,17 @@ module.exports = (sequelize) => {
       type: Sequelize.DATE,
       allowNull: false
     },
-    compradorId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'user', 
-        key: 'id'
-      },
-      allowNull: false
-    },
     dataValidade: {
       type: Sequelize.DATE,
       allowNull: false
     }
   });
 
-  Cotacao.associate = function(models) {
-    Cotacao.belongsTo(models.Produto, { foreignKey: 'produtoId', as: 'produto' });
-    Cotacao.belongsTo(models.Fornecedor, { foreignKey: 'fornecedorId', as: 'fornecedor' });
-    Cotacao.belongsTo(models.User, { foreignKey: 'compradorId', as: 'user' });
-  };
+Cotacao.associate = function(models) {
+  Cotacao.belongsTo(models.Produto, { foreignKey: 'ProdutoId', as: 'produto'});
+  Cotacao.belongsTo(models.Fornecedor, { foreignKey: 'FornecedorId', as: 'fornecedor' });
+  Cotacao.belongsTo(models.User, { foreignKey: 'CompradorId', as: 'user' });
+};
 
   return Cotacao;
 };
