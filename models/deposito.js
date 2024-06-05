@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 // models/Deposito.js
-=======
 
->>>>>>> main
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {

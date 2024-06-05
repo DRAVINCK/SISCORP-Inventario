@@ -1,22 +1,17 @@
-<<<<<<< HEAD
-=======
+
 // routers/DepositoRouter.js
->>>>>>> main
+
 var express = require('express');
 var router = express.Router();
 
 const db = require('../models');
 const DepositoService = require('../services/depositoService');
-<<<<<<< HEAD
 const DepositoServiceInstance = new DepositoService(db.Deposito, db.DepositoProduto);
-=======
-const DepositoServiceInstance = new DepositoService(db.Deposito);
->>>>>>> main
 
 const DepositoController = require('../controllers/depositoController');
 const DepositoControllerInstance = new DepositoController(DepositoServiceInstance);
 
-<<<<<<< HEAD
+
 router.post('/criar', function(req, res, next) {
   DepositoControllerInstance.criarDeposito(req, res);
 });
@@ -35,14 +30,6 @@ router.get('/listarDepositos', function(req, res, next) {
 
 router.get('/verificarDisponibilidade', function(req, res, next) {
   DepositoControllerInstance.verificarDisponibilidade(req, res);
-=======
-router.post('/cadastrar', function(req, res, next) {
-  DepositoControllerInstance.createDeposito(req, res);
-});
-
-router.get('/listarTodos', function(req, res, next) {
-  DepositoControllerInstance.listarTodos(req, res);
->>>>>>> main
 });
 
 module.exports = router;

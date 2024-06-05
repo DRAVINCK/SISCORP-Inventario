@@ -6,16 +6,8 @@ class CentroDeCustoService {
   
     async criar(codigo, nome) {
       try {
-<<<<<<< HEAD
-        const novoCentro = await this.CentroDeCusto.create({nome});
-=======
-        const novoCentro = await this.CentroDeCusto.create(
-          { 
-            codigo,
-             nome
-          });
->>>>>>> main
 
+        const novoCentro = await this.CentroDeCusto.create({ nome });
         return novoCentro ? novoCentro : null;
       } catch (error) {
         throw error;
