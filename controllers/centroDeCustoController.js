@@ -6,9 +6,13 @@ class CentroDeCustoController {
     }
   
     async criar(req, res) {
-      const { nome } = req.body;
+      const { codigo,nome } = req.body;
       try {
+<<<<<<< HEAD
         const centro = await this.CentroDeCustoService.criar( nome);
+=======
+        const centro = await this.CentroDeCustoService.criar(codigo, nome);
+>>>>>>> main
         res.status(200).json(centro);
       } catch (error) {
         res.status(500).json({ error: 'Erro ao criar o centro de custo' });
