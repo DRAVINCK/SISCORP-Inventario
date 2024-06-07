@@ -1,4 +1,3 @@
-// models/Cotacao.js
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
@@ -30,6 +29,7 @@ module.exports = (sequelize) => {
         model: 'Users',
         key: 'id'
       },
+      allowNull: false
     },
     precoProposto: {
       type: Sequelize.FLOAT,
@@ -39,25 +39,16 @@ module.exports = (sequelize) => {
       type: Sequelize.DATE,
       allowNull: false
     },
-    compradorId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id'
-      },
-      allowNull: false
-    },
     dataValidade: {
       type: Sequelize.DATE,
       allowNull: false
     }
   });
 
-
-  Cotacao.associate = function (models) {
+  Cotacao.associate = function(models) {
     Cotacao.belongsTo(models.Produto, { foreignKey: 'ProdutoId', as: 'produto' });
     Cotacao.belongsTo(models.Fornecedor, { foreignKey: 'FornecedorId', as: 'fornecedor' });
-    Cotacao.belongsTo(models.User, { foreignKey: 'CompradorId', as: 'user' });
+    Cotacao.belongsTo(models.User, { foreignKey: 'CompradorId', as: 'comprador' });
   };
 
   return Cotacao;

@@ -6,22 +6,22 @@ class CompraController {
   }
 
   async criar(req, res) {
-    const { fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao } = req.body;
+    const { fornecedorId, cotacaoId, produtoId, qtdAdquirida, custoUnitario,valorASerPago, situacao } = req.body;
     try {
 
       const compra = await this.compraService.criar(
         fornecedorId, 
-        contacaoId, 
+        cotacaoId, 
         produtoId, 
         qtdAdquirida, 
         custoUnitario, 
-        valorASerPago, 
-        situacao
+        valorASerPago,
+        situacao,
       );
 
       res.status(200).json(compra);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao criar a compra.' });
+      res.status(500).send(Error('Erro ao criar a compra.'));
     }
   }
 

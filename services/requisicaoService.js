@@ -1,4 +1,3 @@
-// services/requisicaoService.js
 const db = require('../models');
 const DepositoService = require('./depositoService');
 const DepositoServiceInstance = new DepositoService(db.Deposito, db.DepositoProduto);
@@ -17,7 +16,7 @@ class RequisicaoService {
         const atualizar = await DepositoServiceInstance.atualizarEstoque(depositoId, produtoId, quantidade);
         if (atualizar) {
           status = 'atendida';
-        } 
+        }
       }
 
       const requisicao = await this.Requisicao.create({
@@ -28,9 +27,10 @@ class RequisicaoService {
         depositoId,
         status
       });
-      return requisicao ? requisicao : null;
+
+      return requisicao;
     } catch (error) {
-      throw error.message;
+      throw error;
     }
   }
 
@@ -50,12 +50,11 @@ class RequisicaoService {
 
   async listarTodas() {
     try {
-      const requisicao = await this.Requisicao.findAll({
+      const requisicoes = await this.Requisicao.findAll({
         include: ['usuario', 'produto', 'centroDeCusto', 'deposito']
       });
-      
-      return requisicao ? requisicao : null;
-      
+
+      return requisicoes;
     } catch (error) {
       throw error;
     }

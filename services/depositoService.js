@@ -67,31 +67,35 @@ class DepositoService {
 
   async verificarDisponibilidade(depositoId, produtoId, quantidade) {
     try {
-      const depositoProduto = await this.DepositoProduto.findOne({ where: { depositoId, produtoId } });
+      const depositoProduto = await this.DepositoProduto.findOne(
+        { 
+          where: { depositoId, produtoId }
+        }
+      );
       return depositoProduto && depositoProduto.quantidade >= quantidade;
     } catch (error) {
       throw error;
     }
   }
 
-  async atualizarEstoque(depositoId, produtoId, novaQuantidade) {
+  async atualizarEstoque(depositoId, produtoId, quantidade) {
     try {
-        let depositoProduto = await this.DepositoProduto.findOne({
-            where: { depositoId, produtoId }
-        });
+      let depositoProduto = await this.DepositoProduto.findOne({
+        where: { depositoId, produtoId }
+      });
 
-        if (!depositoProduto) {
-            throw new Error('Produto não encontrado no depósito.');
-        }
+      if (!depositoProduto) {
+        throw new Error('Produto não encontrado no depósito.');
+      }
 
-        depositoProduto.quantidade = novaQuantidade;
-        await depositoProduto.save();
+      depositoProduto.quantidade -= quantidade;
+      await depositoProduto.save();
 
-        return depositoProduto ? depositoProduto : null;
+      return depositoProduto ? depositoProduto : null;
     } catch (error) {
-        throw error;
+      throw error;
     }
-}
+  }
 }
 
 module.exports = DepositoService;

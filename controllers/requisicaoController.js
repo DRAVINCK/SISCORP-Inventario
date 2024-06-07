@@ -7,7 +7,12 @@ class RequisicaoController {
     async criar(req, res) {
       const { usuarioId, produtoId, quantidade, centroDeCustoId, depositoId } = req.body;
       try {
-        const requisicao = await this.RequisicaoService.criar(usuarioId, produtoId, quantidade, centroDeCustoId, depositoId);
+        const requisicao = await this.RequisicaoService.criar(
+          usuarioId, 
+          produtoId, 
+          quantidade, 
+          centroDeCustoId, 
+          depositoId);
         res.status(201).json(requisicao);
       } catch (error) {
         res.status(500).json({ error: 'Erro ao criar a requisição' });

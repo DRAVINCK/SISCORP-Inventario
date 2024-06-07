@@ -49,7 +49,7 @@ async function applyMigrations() {
     await db.Deposito.sync({ alter: true });
     await db.DepositoProduto.sync({ alter: true }); 
     await db.MovimentoProduto.sync({ alter: true });
-    await db.Cotacao.sync({ FORCE: true }); 
+    await db.Cotacao.sync({ alter: true }); 
     await db.Compra.sync({ alter: true });
     await db.Requisicao.sync({ alter: true });
     console.log("Sincronização com o banco de dados realizada");

@@ -4,20 +4,21 @@ class CompraService {
       this.Compra = CompraModel;
     }
   
-    async criar(fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao) {
+    async criar(fornecedorId, cotacaoId, produtoId, qtdAdquirida, custoUnitario,valorASerPago, situacao) {
       try {
-        const novaCompra = await this.Compra.create({
-          fornecedorId,
-          contacaoId,
-          produtoId,
-          qtdAdquirida,
-          custoUnitario,
-          valorASerPago,
-          situacao
+        const novaCompra = await this.Compra.create( {
+          fornecedorId, 
+          cotacaoId, 
+          produtoId, 
+          qtdAdquirida, 
+          custoUnitario, 
+          valorASerPago, 
+          situacao,
         });
+        
         return novaCompra ? novaCompra : null;
       } catch (error) {
-        throw error;
+        return error
       }
     }
   
