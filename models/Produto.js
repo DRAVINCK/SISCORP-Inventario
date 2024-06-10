@@ -25,6 +25,7 @@ module.exports = (sequelize) => {
       foreignKey: 'produtoId',
       as: 'depositos'
     });
+    
   };
 
   return Produto;

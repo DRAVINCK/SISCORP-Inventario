@@ -1,6 +1,5 @@
-// routers/compraRouter.js
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 const db = require('../models');
 const CompraService = require('../services/compraService');
@@ -13,19 +12,19 @@ router.post('/criar', function(req, res, next) {
   CompraControllerInstance.criar(req, res);
 });
 
-router.get('/listarTodos', function(req, res, next) {
-  CompraControllerInstance.listarTodos(req, res);
+router.get('/listarTodas', function(req, res, next) {
+  CompraControllerInstance.listarTodas(req, res);
 });
 
-router.get('/buscarPorId', function(req, res, next) {
+router.get('/buscarPorId/:id', function(req, res, next) {
   CompraControllerInstance.buscarPorId(req, res);
 });
 
-router.put('/atualizar', function(req, res, next) {
-  CompraControllerInstance.atualizar(req, res);
+router.put('/atualizarSituacao/:id', function(req, res, next) {
+  CompraControllerInstance.atualizarSituacao(req, res);
 });
 
-router.delete('/deletar', function(req, res, next) {
+router.delete('/deletar/:id', function(req, res, next) {
   CompraControllerInstance.deletar(req, res);
 });
 

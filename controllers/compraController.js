@@ -1,77 +1,74 @@
-// controllers/compraController.js
 class CompraController {
-
-  constructor(compraService) {
-    this.compraService = compraService;
+  constructor(CompraService) {
+    this.CompraService = CompraService;
   }
 
   async criar(req, res) {
-    const { fornecedorId, cotacaoId, produtoId, qtdAdquirida, custoUnitario,valorASerPago, situacao } = req.body;
+    const { fornecedorId, compradorId, cotacao1Id, cotacao2Id, cotacao3Id, produtoId, qtdAdquirida, custoUnitario } = req.body;
     try {
-
-      const compra = await this.compraService.criar(
+      const compra = await this.CompraService.criar(
         fornecedorId, 
-        cotacaoId, 
+        compradorId, 
+        cotacao1Id, cotacao2Id, 
+        cotacao3Id, 
         produtoId, 
         qtdAdquirida, 
-        custoUnitario, 
-        valorASerPago,
-        situacao,
-      );
-
-      res.status(200).json(compra);
+        custoUnitario);
+      res.status(201).json(compra);
     } catch (error) {
-      res.status(500).send(Error('Erro ao criar a compra.'));
+      res.status(500).json({ error: 'Erro ao criar a compra' });
     }
   }
 
-  async listarTodos(req, res) {
+  async listarTodas(req, res) {
     try {
-      const compras = await this.compraService.listarTodos();
+      const compras = await this.CompraService.listarTodas();
       res.status(200).json(compras);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao listar as compras.' });
+      res.status(500).json({ error: 'Erro ao listar compras' });
     }
   }
 
-  async boscarPorId(req, res) {
-    const { id } = req.body;
+  async buscarPorId(req, res) {
+    const { id } = req.params;
     try {
-      const compra = await this.compraService.buscarPorId(id);
-      res.status(200).json(compra);
+      const compra = await this.CompraService.buscarPorId(id);
+      if (compra) {
+        res.status(200).json(compra);
+      } else {
+        res.status(404).json({ error: 'Compra não encontrada' });
+      }
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao buscar a compra.' });
+      res.status(500).json({ error: 'Erro ao buscar compra' });
     }
   }
 
-  async atualizar(req, res) {
-    const { id, fornecedorId, contacaoId, produtoId, qtdAdquirida, custoUnitario, valorASerPago, situacao } = req.body;
+  async atualizarSituacao(req, res) {
+    const { id } = req.params;
+    const { situacao } = req.body;
     try {
-
-      const compra = await this.compraService.atualizar(
-        id, 
-        fornecedorId, 
-        contacaoId, 
-        produtoId, 
-        qtdAdquirida, 
-        custoUnitario, 
-        valorASerPago, 
-        situacao
-      );
-
-      res.status(200).json(compra);
+      const compra = await this.CompraService.atualizarSituacao(id, situacao);
+      if (compra) {
+        res.status(200).json(compra);
+      } else {
+        res.status(404).json({ error: 'Compra não encontrada' });
+      }
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao atualizar a compra.' });
+      res.status(500).json({ error: 'Erro ao atualizar situação da compra' });
     }
   }
 
   async deletar(req, res) {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
-      const deletado = await this.compraService.deletar(id);
-      res.status(200).json({ deletado });
+      const sucesso = await this.CompraService.deletar(id);
+      if (sucesso) {
+        res.status(200).json({ mensagem: 'Compra deletada com sucesso' });
+      } else {
+        res.status(404).json({ error: 'Compra não encontrada' });
+      }
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao deletar a compra.' });
+      res.status(500).json({ error: 'Erro ao deletar compra' });
     }
   }
 }
