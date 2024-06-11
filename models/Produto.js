@@ -24,8 +24,7 @@ module.exports = (sequelize) => {
       through: models.DepositoProduto,
       foreignKey: 'produtoId',
       as: 'depositos'
-    });
-    
+    })
   };
 
   return Produto;

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const db = require('../models');
-const VendasService = require('../detalhesDaVendaService.js/vendasService');
+const VendasService = require('../services/vendasService');
 const VendasServiceInstance = new VendasService(db.Vendas);
 
 const VendasController = require('../controllers/vendasController');

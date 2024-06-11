@@ -4,16 +4,15 @@ class CompraController {
   }
 
   async criar(req, res) {
-    const { fornecedorId, compradorId, cotacao1Id, cotacao2Id, cotacao3Id, produtoId, qtdAdquirida, custoUnitario } = req.body;
+    const { produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal } = req.body;
     try {
       const compra = await this.CompraService.criar(
-        fornecedorId, 
-        compradorId, 
-        cotacao1Id, cotacao2Id, 
-        cotacao3Id, 
-        produtoId, 
-        qtdAdquirida, 
-        custoUnitario);
+        produtoId,
+        qtdAdquirida,
+        custoUnitario,
+        parcelas,
+        noNotaFiscal
+      );
       res.status(201).json(compra);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao criar a compra' });
@@ -22,7 +21,7 @@ class CompraController {
 
   async listarTodas(req, res) {
     try {
-      const compras = await this.CompraService.listarTodas();
+      const compras = await this.CompraService.listarTodos();
       res.status(200).json(compras);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao listar compras' });
@@ -43,18 +42,25 @@ class CompraController {
     }
   }
 
-  async atualizarSituacao(req, res) {
+  async atualizar(req, res) {
     const { id } = req.params;
-    const { situacao } = req.body;
+    const { produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal } = req.body;
     try {
-      const compra = await this.CompraService.atualizarSituacao(id, situacao);
+      const compra = await this.CompraService.atualizar(
+        id,
+        produtoId,
+        qtdAdquirida,
+        custoUnitario,
+        parcelas,
+        noNotaFiscal
+      );
       if (compra) {
         res.status(200).json(compra);
       } else {
         res.status(404).json({ error: 'Compra não encontrada' });
       }
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao atualizar situação da compra' });
+      res.status(500).json({ error: 'Erro ao atualizar a compra' });
     }
   }
 

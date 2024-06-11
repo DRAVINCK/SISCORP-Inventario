@@ -20,8 +20,8 @@ router.get('/buscarPorId/:id', function(req, res, next) {
   CompraControllerInstance.buscarPorId(req, res);
 });
 
-router.put('/atualizarSituacao/:id', function(req, res, next) {
-  CompraControllerInstance.atualizarSituacao(req, res);
+router.put('/atualizar/:id', function(req, res, next) {
+  CompraControllerInstance.atualizar(req, res);
 });
 
 router.delete('/deletar/:id', function(req, res, next) {
