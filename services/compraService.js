@@ -1,3 +1,4 @@
+//services/compraService.js
 class CompraService {
   constructor(CompraModel) {
     this.Compra = CompraModel;
@@ -5,13 +6,14 @@ class CompraService {
 
   async criar(produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal) {
     try {
-      const novaCompra = await this.Compra.create({
-        produtoId,
-        qtdAdquirida,
-        custoUnitario,
-        parcelas,
-        noNotaFiscal,
-      });
+      const novaCompra = await this.Compra.create(
+        {
+          produtoId,
+          qtdAdquirida,
+          custoUnitario,
+          parcelas,
+          noNotaFiscal,
+        });
 
       return novaCompra ? novaCompra : null;
     } catch (error) {
