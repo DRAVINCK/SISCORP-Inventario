@@ -13,8 +13,8 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false
     },
-    valorUnitario: {
-      type: Sequelize.FLOAT,
+    ativo: {
+      type: Sequelize.BOOLEAN,
       allowNull: false
     }
   });

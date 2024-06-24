@@ -23,10 +23,11 @@ module.exports = (sequelize) => {
       },
       allowNull: false
     }
-  });
+  },{ sequelize, modelName: 'Vendas' });
 
   Vendas.associate = (models) => {
     Vendas.belongsTo(models.Cliente, { foreignKey: 'clienteId', as: 'cliente' });
+    Vendas.hasMany(models.DetalheVenda, { foreignKey: 'idVenda', as: 'detalhesVenda'});
   };
   
 

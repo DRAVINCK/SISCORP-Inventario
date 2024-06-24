@@ -17,6 +17,7 @@ const clienteRouter = require('./routes/clienteRouter');
 const vendasRouter = require('./routes/vendasRouter');
 const tituloRouter = require('./routes/tituloRouter');
 const movContasPagarRouter = require('./routes/movContasPagarRouter');
+const DetalheVendaRouter = require('./routes/detalheVendaRouter');
 
 const db = require('./models'); // Importar o banco de dados
 
@@ -42,6 +43,9 @@ app.use('/cliente', clienteRouter);
 app.use('/vendas', vendasRouter);
 app.use('/titulos', tituloRouter);
 app.use('/movContasPagar', movContasPagarRouter);
+app.use('/detalheVenda', DetalheVendaRouter);
+
+
 
 async function applyMigrations() {
   try {
@@ -59,6 +63,7 @@ async function applyMigrations() {
     await db.Vendas.sync({ alter: true });
     await db.Titulo.sync({ alter: true });
     await db.MovContasPagar.sync({ alter: true });
+    await db.DetalheVenda.sync({ alter: true });
     console.log("Sincronização com o banco de dados realizada");
   } catch (error) {
     console.log('Erro ao sincronizar o banco de dados', error);

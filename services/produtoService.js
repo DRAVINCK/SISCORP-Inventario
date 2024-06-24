@@ -1,16 +1,21 @@
 
 const db = require('../models');
-
+const jwt = require('jsonwebtoken');
 class ProdutoService {
   constructor(produtoModel) {
     this.Produto = produtoModel;
   }
 
-  async criar(nome, valorUnitario) {
+async criar(nome, ativo, token) {
     try {
+
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const novoProduto = await this.Produto.create({
         nome: nome,
-        valorUnitario: valorUnitario
+        ativo: ativo
       });
       return novoProduto;
     } catch (error) {
@@ -18,8 +23,12 @@ class ProdutoService {
     }
   }
 
-  async listarTodos() {
+  async listarTodos(token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const produtos = await this.Produto.findAll();
       return produtos;
     } catch (error) {
@@ -27,8 +36,12 @@ class ProdutoService {
     }
   }
 
-  async buscarPorId(id) {
+  async buscarPorId(id, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const produto = await this.Produto.findByPk(id);
       return produto ? produto : null;
     } catch (error) {
@@ -36,12 +49,16 @@ class ProdutoService {
     }
   }
 
-  async atualizar(id, nome, valorUnitario) {
+  async atualizar(id, nome, ativo, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const produto = await this.Produto.findByPk(id);
       if (produto) {
         produto.nome = nome;
-        produto.valorUnitario = valorUnitario;
+        produto.ativo = ativo;
         await produto.save();
         return produto;
       }
@@ -51,8 +68,13 @@ class ProdutoService {
     }
   }
 
-  async deletar(id) {
+  async deletar(id, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
+
       const produto = await this.Produto.findByPk(id);
       if (produto) {
         await produto.destroy();

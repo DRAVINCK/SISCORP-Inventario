@@ -5,16 +5,16 @@ class MovimentoProdutoService {
     this.MovimentoProduto = MovimentoProdutoModel;
   }
 
-  async criar(DepositoId, ProdutoId, TipoMovimentoENUM, Qtd, PrecoUnitario, token) {
+  async criar(DepositoId, idProduto, TipoMovimentoENUM, quantidade, valorUnitario, token) {
     try {
       const decoded = jwt.verify(token, '123');
       if (decoded) {
         const novoMovimentoObj = {
           DepositoId: DepositoId,
-          ProdutoId: ProdutoId,
+          ProdutoId: idProduto,
           TipoMovimento: TipoMovimentoENUM,
-          Qtd: Qtd,
-          PrecoUnitario: PrecoUnitario
+          Qtd: quantidade,
+          PrecoUnitario: valorUnitario
         };
         const novoMovimento = await this.MovimentoProduto.create(novoMovimentoObj);
         return novoMovimento ? novoMovimento : null;

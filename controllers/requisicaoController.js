@@ -12,7 +12,8 @@ class RequisicaoController {
           produtoId, 
           quantidade, 
           centroDeCustoId, 
-          depositoId);
+          depositoId,
+          req.headers.authorization);
         res.status(201).json(requisicao);
       } catch (error) {
         res.status(500).json({ error: 'Erro ao criar a requisição' });

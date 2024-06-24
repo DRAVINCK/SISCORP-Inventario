@@ -7,15 +7,15 @@ class RequisicaoService {
     this.Requisicao = RequisicaoModel;
   }
 
-  async criar(usuarioId, produtoId, quantidade, centroDeCustoId, depositoId) {
+  async criar(usuarioId, produtoId, quantidade, centroDeCustoId, depositoId, token) {
+    let StatusAA = 'pendente'; 
     try {
-      const disponibilidade = await DepositoServiceInstance.verificarDisponibilidade(depositoId, produtoId, quantidade);
-      let status = 'pendente';
+      const disponibilidade = await DepositoServiceInstance.verificarDisponibilidade(depositoId, produtoId, quantidade, token)
 
       if (disponibilidade) {
-        const atualizar = await DepositoServiceInstance.atualizarEstoque(depositoId, produtoId, quantidade);
+        const atualizar = await DepositoServiceInstance.atualizarEstoque(depositoId, produtoId, quantidade, token);
         if (atualizar) {
-          status = 'atendida';
+           StatusAA = 'atendida';
         }
       }
 
@@ -25,7 +25,7 @@ class RequisicaoService {
         quantidade,
         centroDeCustoId,
         depositoId,
-        status
+        Status: StatusAA
       });
 
       return requisicao;

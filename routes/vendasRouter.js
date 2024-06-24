@@ -9,7 +9,7 @@ const VendasController = require('../controllers/vendasController');
 const VendasControllerInstance = new VendasController(VendasServiceInstance);
 
 router.post('/criar', (req, res) => {
-  VendasControllerInstance.criar(req, res);
+  VendasControllerInstance.cadastrarVenda(req, res);
 });
 
 router.get('/listarTodas', (req, res) => {

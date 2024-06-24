@@ -1,4 +1,5 @@
 const db = require('../models');
+const jwt = require('jsonwebtoken');
 
 class DepositoService {
   constructor(DepositoModel, DepositoProdutoModel) {
@@ -6,17 +7,25 @@ class DepositoService {
     this.DepositoProduto = DepositoProdutoModel;
   }
 
-  async criarDeposito(nome) {
+  async criarDeposito(nome, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const novoDeposito = await this.Deposito.create({ nome });
-      return novoDeposito;
+      return novoDeposito ? novoDeposito : null;
     } catch (error) {
       throw error;
     }
   }
 
-  async adicionarProduto(depositoId, produtoId, quantidade) {
+  async adicionarProduto(depositoId, produtoId, quantidade, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       let depositoProduto = await this.DepositoProduto.findOne(
         { 
           where: { depositoId, produtoId } 
@@ -38,26 +47,34 @@ class DepositoService {
     }
   }
 
-  async listarProdutos(depositoId) {
+  async listarProdutos(depositoId, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const produtos = await this.DepositoProduto.findAll({
         where: { depositoId },
         include: [{ model: db.Produto, as: 'produto' }]
       });
 
       return produtos.map(dp => ({
+        id: dp.produto.id,
         nome: dp.produto.nome,
         valorUnitario: dp.produto.valorUnitario,
         quantidade: dp.quantidade,
-        valorTotal: dp.produto.valorUnitario * dp.quantidade
       }));
     } catch (error) {
       throw error;
     }
   }
 
-  async listarDepositos() {
+  async listarDepositos(token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const depositos = await this.Deposito.findAll();
       return depositos ? depositos : null;
     } catch (error) {
@@ -65,21 +82,34 @@ class DepositoService {
     }
   }
 
-  async verificarDisponibilidade(depositoId, produtoId, quantidade) {
+  async verificarDisponibilidade(depositoId, produtoId, quantidade, token) {
     try {
-      const depositoProduto = await this.DepositoProduto.findOne(
-        { 
-          where: { depositoId, produtoId }
+        const decoded = jwt.verify(token, '123');
+        if (!decoded) {
+            throw new Error('Token inválido');
         }
-      );
-      return depositoProduto && depositoProduto.quantidade >= quantidade;
-    } catch (error) {
-      throw error;
-    }
-  }
 
-  async atualizarEstoque(depositoId, produtoId, quantidade) {
+        const depositoProduto = await this.DepositoProduto.findOne({
+            where: { depositoId, produtoId }
+        });
+
+        const disponivel = depositoProduto && depositoProduto.quantidade >= quantidade;
+
+        return {
+          disponivel,
+          depositoProduto
+        };
+    } catch (error) {
+        throw error;
+    }
+}
+
+  async atualizarEstoque(depositoId, produtoId, quantidade, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       let depositoProduto = await this.DepositoProduto.findOne({
         where: { depositoId, produtoId }
       });

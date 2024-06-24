@@ -1,10 +1,14 @@
 //services/compraService.js
+const db = require('../models');
+const MovimentoProdutoService = require('./movimentoProdutoService');
+const MovimentoProdutoServiceInstance = new MovimentoProdutoService(db.MovimentoProduto);
+
 class CompraService {
   constructor(CompraModel) {
     this.Compra = CompraModel;
   }
 
-  async criar(produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal) {
+  async criar(produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal, DepositoId, token) {
     try {
       const novaCompra = await this.Compra.create(
         {
@@ -15,7 +19,18 @@ class CompraService {
           noNotaFiscal,
         });
 
-      return novaCompra ? novaCompra : null;
+      const movimento = await MovimentoProdutoServiceInstance.criar(
+        DepositoId,
+        produtoId,
+        'E_compra',
+        qtdAdquirida,
+        custoUnitario,
+        token
+      );
+
+
+
+      return novaCompra, movimento;
     } catch (error) {
       return error;
     }

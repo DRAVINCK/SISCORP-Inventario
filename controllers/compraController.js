@@ -4,14 +4,16 @@ class CompraController {
   }
 
   async criar(req, res) {
-    const { produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal } = req.body;
+    const { produtoId, qtdAdquirida, custoUnitario, parcelas, noNotaFiscal,DepositoId } = req.body;
     try {
       const compra = await this.CompraService.criar(
         produtoId,
         qtdAdquirida,
         custoUnitario,
         parcelas,
-        noNotaFiscal
+        noNotaFiscal,
+        DepositoId,
+        req.headers.authorization
       );
       res.status(201).json(compra);
     } catch (error) {
