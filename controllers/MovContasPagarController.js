@@ -14,7 +14,8 @@ class MovContasPagarController{
                     tipoMovimento,
                     valorMovimento,
                     multa,
-                    juros
+                    juros,
+                    req.headers.authorization
                 );
                 res.status(200).json(novoMovimentoC);
             }catch(error){
@@ -52,7 +53,8 @@ class MovContasPagarController{
                 tipoMovimento,
                 valorMovimento,
                 multa,
-                juros
+                juros,
+                req.headers.authorization
             );
             res.status(200).json(movContasPagar);
         }catch(error){
