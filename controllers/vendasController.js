@@ -7,7 +7,13 @@ class VendasController {
     async cadastrarVenda(req, res) {
       const { numeroNotaFiscal, dataVenda, clienteId, produtoId, quantidade, precoUnitario, depositoId } = req.body;
       try {
-        const venda = await this.VendasService.cadastrarVenda(numeroNotaFiscal, dataVenda, clienteId, produtoId, quantidade, precoUnitario, depositoId);
+        const venda = await this.VendasService.cadastrarVenda(
+          numeroNotaFiscal, 
+          dataVenda, clienteId, 
+          produtoId, quantidade, 
+          precoUnitario, depositoId, 
+          req.headers.authorization
+        );
         res.status(201).json(venda);
       } catch (error) {
         res.status(500).json({ error: 'Erro ao cadastrar venda' + error.message });
@@ -15,11 +21,13 @@ class VendasController {
     }
     	          
     async buscarPorId(req, res) {
+      const { id } = req.params;
       try {
-        const venda = await this.VendasService.buscarPorId(req.params.id);
+        const venda = await this.VendasService.buscarPorId(id);
         res.status(200).json(venda);
       } catch (error) {
         res.status(404).json({ error: error.message });
+        console.log(error); 
       }
     }
   
@@ -37,7 +45,13 @@ class VendasController {
     async atualizar(req, res) {
       const { numeroNotaFiscal, dataVenda, clienteId } = req.body;
       try {
-        const venda = await this.VendasService.atualizar(req.params.id, numeroNotaFiscal, dataVenda, clienteId);
+        const venda = await this.VendasService.atualizar(
+          req.params.id, 
+          numeroNotaFiscal, 
+          dataVenda, 
+          clienteId,
+          req.headers.authorization
+        );
         res.status(200).json(venda);
       } catch (error) {
         res.status(400).json({ error: error.message });

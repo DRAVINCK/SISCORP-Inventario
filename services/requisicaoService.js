@@ -8,14 +8,14 @@ class RequisicaoService {
   }
 
   async criar(usuarioId, produtoId, quantidade, centroDeCustoId, depositoId, token) {
-    let StatusAA = 'pendente'; 
+    let status = 'pendente'; 
     try {
       const disponibilidade = await DepositoServiceInstance.verificarDisponibilidade(depositoId, produtoId, quantidade, token)
 
       if (disponibilidade) {
         const atualizar = await DepositoServiceInstance.atualizarEstoque(depositoId, produtoId, quantidade, token);
         if (atualizar) {
-           StatusAA = 'atendida';
+          status = 'atendida';
         }
       }
 
@@ -23,9 +23,9 @@ class RequisicaoService {
         usuarioId,
         produtoId,
         quantidade,
-        centroDeCustoId,
+        centroDeCustoId,  
         depositoId,
-        Status: StatusAA
+        status
       });
 
       return requisicao;

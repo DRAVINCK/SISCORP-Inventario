@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     tipoMovimento: {
-      type: Sequelize.ENUM('Abertura', 'Pagto'),
+      type: Sequelize.ENUM('Abertura', 'Pagamento'),
       allowNull: false
     },
     valorMovimento: {

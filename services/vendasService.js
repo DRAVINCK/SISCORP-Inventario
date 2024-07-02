@@ -1,5 +1,5 @@
-const { where } = require('sequelize');
-const { Vendas, DetalheVenda, MovimentoProduto } = require('../models');
+const jwt = require('jsonwebtoken');
+const { Vendas, DetalheVenda, MovimentoProduto, Cliente } = require('../models');
 
 class VendasService {
   constructor(VendaModel, DetalheVendaModel, MovimentoProdutoModel) {
@@ -8,7 +8,11 @@ class VendasService {
     this.MovimentoProduto = MovimentoProdutoModel || MovimentoProduto;
   }
 
-  async cadastrarVenda(numeroNotaFiscal, dataVenda, clienteId, produtoId, quantidade, precoUnitario, depositoId) {
+  async cadastrarVenda(numeroNotaFiscal, dataVenda, clienteId, produtoId, quantidade, precoUnitario, depositoId, token) {
+    const decoded = jwt.verify(token, '123');
+    if (!decoded) {
+      throw new Error('Token inválido');
+    }
     const transaction = await this.Venda.sequelize.transaction();
 
     try {
@@ -60,41 +64,43 @@ class VendasService {
       }
       return venda;
     } catch (error) {
+      console.log(error);
       throw new Error('Erro ao buscar venda: ' + error.message);
+
     }
   }
 
-  async listarTodas(page = 1, pageSize = 10) {
+  async listarTodas(page = 2, pageSize = 10) {
     try {
       const offset = (page - 1) * pageSize;
       const limit = pageSize;
-      const detalhesVendaobj = await this.DetalheVenda.findByPk(vendas.id);
       const vendas = await this.Venda.findAndCountAll({
+        include: { model: DetalheVenda, as: 'detalhesVenda' },
         offset,
         limit,
-        include: [
-          {
-            model: DetalheVenda,
-            as: 'detalhesVenda',
-          },
-        ],
+        
+        
       });
       console.log(JSON.stringify(vendas, null, 2));
 
       return {
         vendas: vendas.rows,
-        DetalheVenda: detalhesVendaobj,
         totalItems: vendas.count,
         totalPages: Math.ceil(vendas.count / pageSize),
         currentPage: page,
       };
     } catch (error) {
-      throw new Error('Erro ao buscar vendas: ' + error.message);
+      console.log(error);
+      throw new Error('Erro ao buscar vendas: ' + error);
     }
   }
 
-  async atualizar(id, numeroNotaFiscal, dataVenda, clienteId) {
+  async atualizar(id, numeroNotaFiscal, dataVenda, clienteId, token) {
     try {
+      const decoded = jwt.verify(token, '123');
+      if (!decoded) {
+        throw new Error('Token inválido');
+      }
       const venda = await this.Venda.findByPk(id);
       if (venda) {
         venda.numeroNotaFiscal = numeroNotaFiscal;

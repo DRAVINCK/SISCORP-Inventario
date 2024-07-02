@@ -6,14 +6,15 @@ class TitulosController {
     }
 
     async criar(req, res) {
-        const { NotaFiscal, NParcela, VlorOriginal, DtVcto, Situacao } = req.body;
+        const { NotaFiscal, NParcela, VlorOriginal, DtVcto } = req.body;
         try {
             const titulo = await this.tituloService.criar(
                 NotaFiscal, 
                 NParcela, 
                 VlorOriginal, 
-                DtVcto, 
-                Situacao
+                DtVcto,
+                req.headers.authorization
+                
             );
             res.status(200).json(titulo);
         } catch (error) {
@@ -23,7 +24,7 @@ class TitulosController {
 
     async listarTodos(req, res) {
         try {
-            const titulos = await this.tituloService.listarTodos();
+            const titulos = await this.tituloService.listarTodos(req.headers.authorization);
             res.status(200).json(titulos);
         } catch (error) {
             res.status(500).json({ error: 'Erro ao listar os títulos.' });
@@ -33,7 +34,7 @@ class TitulosController {
     async buscarPorId(req, res) {
         const { id } = req.params;
         try {
-            const titulos = await this.tituloService.buscarPorId(id);
+            const titulos = await this.tituloService.buscarPorId(id, req.headers.authorization);
             res.status(200).json(titulos);
         } catch (error) {
             res.status(500).json({ error: 'Erro ao buscar o título.' });
@@ -50,7 +51,8 @@ class TitulosController {
                 NParcela, 
                 VlorOriginal, 
                 DtVcto, 
-                Situacao
+                Situacao,
+                req.headers.authorization
             );
             res.status(200).json(titulos);
         } catch (error) {
@@ -61,7 +63,7 @@ class TitulosController {
     async deletar(req, res) {
         const { id } = req.params;
         try {
-            const deletado = await this.tituloService.deletar(id);
+            const deletado = await this.tituloService.deletar(id, req.headers.authorization);
             res.status(200).json({ deletado });
         } catch (error) {
             res.status(500).json({ error: 'Erro ao deletar o título.' });

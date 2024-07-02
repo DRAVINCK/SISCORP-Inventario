@@ -15,10 +15,10 @@ class MovContasPagarService {
                 valorMovimento,
                 multa,
                 juros
-            });
+            }); 
             return novoMovimentoC;
         }catch(error){
-            throw error;
+            console.log(error);
         }
         
     }

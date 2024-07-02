@@ -1,12 +1,19 @@
 //services/titulosService.js
 
+const jwt = require('jsonwebtoken');
+
 class TituloService {
     constructor(TituloModel) {
         this.Titulo = TituloModel;
     }
 
-    async criar(NotaFiscal, NParcela, VlorOriginal, DtVcto, Situacao) {
+    async criar(NotaFiscal, NParcela, VlorOriginal, DtVcto, token) {
+        let Situacao = "Aberto";
         try {
+            const decoded = jwt.verify(token, '123');
+            if (!decoded) {
+                throw new Error('Token inválido');
+            }
             const titulo = await this.Titulo.create(
                 {
                     NotaFiscal,
@@ -21,8 +28,12 @@ class TituloService {
         }
     }
 
-    async listarTodos() {
+    async listarTodos(token) {
         try {
+            const decoded = jwt.verify(token, '123');
+            if (!decoded) {
+                throw new Error('Token inválido');
+            }
             const titulo = await this.Titulo.findAll();
             return titulo;
         } catch (error) {
@@ -30,8 +41,12 @@ class TituloService {
         }
     }
 
-    async buscarPorId(id) {
+    async buscarPorId(id, token) {
         try {
+            const decoded = jwt.verify(token, '123');
+            if (!decoded) {
+                throw new Error('Token inválido');
+            }
             const titulo = await this.Titulo.findOne({ where: { id } });
             return titulo;
         } catch (error) {
@@ -39,8 +54,12 @@ class TituloService {
         }
     }
 
-    async atualizar(id, NotaFiscal, NParcela, VlorOriginal, DtVcto, Situacao) {
+    async atualizar(id, NotaFiscal, NParcela, VlorOriginal, DtVcto, Situacao, token) {
         try {
+            const decoded = jwt.verify(token, '123');
+            if (!decoded) {
+                throw new Error('Token inválido');
+            }
             const titulo = await this.Titulo.findOne({ where: { id } })
             if (titulo) {
                 titulo.NotaFiscal = NotaFiscal;
@@ -57,11 +76,14 @@ class TituloService {
         }
     }
 
-    async deletar(id) {
-        console.log("passou aqui",id);
+    async deletar(id, token) {
         try {
+            const decoded = jwt.verify(token, '123');
+            if (!decoded) {
+                throw new Error('Token inválido');
+            }
             const titulo = await this.Titulo.findOne({ where: { id } });
-            
+
             if (titulo) {
                 await titulo.destroy();
                 return true;
